@@ -560,5 +560,3 @@ video {
   --tw-text-opacity: 1;
   color: rgb(34 197 94 / var(--tw-text-opacity));
 }
-
-/* npx tailwindcss -i ./src/input.css -o ./src/output.css --watch */

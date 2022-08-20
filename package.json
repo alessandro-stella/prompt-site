@@ -1,9 +1,13 @@
 {
     "devDependencies": {
+        "autoprefixer": "^10.4.8",
         "tailwindcss": "^3.1.8"
     },
     "scripts": {
         "deploy": "npx tailwindcss -i ./src/input.css -o ./src/output.css && git add .",
         "css": "npx tailwindcss -i ./src/input.css -o ./src/output.css --watch"
+    },
+    "dependencies": {
+        "postcss": "^8.4.16"
     }
 }
