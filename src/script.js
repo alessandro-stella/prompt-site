@@ -2,9 +2,10 @@ import outputData from "./outputData.js";
 
 const input = document.getElementById("input");
 const output = document.getElementById("output");
-const decoy = document.getElementById("decoy");
+const caret = document.getElementById("caret");
 
 let command = "";
+let caretIndex = 0;
 
 const possibleChars = [
     "a",
@@ -72,20 +73,26 @@ const possibleChars = [
     9,
 ];
 
-decoy.focus();
+input.addEventListener("focus", () => {
+    caret.classList.add("blink");
+});
 
-window.addEventListener("keydown", (e) => {
+input.addEventListener("blur", () => {
+    caret.classList.remove("blink");
+});
+
+input.addEventListener("keydown", (e) => {
     if (e.key.length !== 1) {
         switch (e.key) {
             case "Enter":
                 executeCommand(command.trim());
-                command = "";
-                updateInput(command);
                 break;
 
             case "Backspace":
+                if (command.length === 0) break;
+
                 command = command.slice(0, -1);
-                updateInput(command);
+                moveCaret("backward");
                 break;
 
             default:
@@ -97,19 +104,35 @@ window.addEventListener("keydown", (e) => {
 
     if (possibleChars.includes(e.key)) {
         command += e.key;
-        updateInput(command);
+        moveCaret("forward");
+    } else {
+        console.log({ before: input.value });
+
+        input.value = input.value.slice(0, -1);
+
+        console.log({ after: input.value });
     }
 });
-
-function updateInput(command) {
-    input.innerHTML = "Command: " + command;
-}
 
 function executeCommand(currentCommand) {
     if (!outputData[currentCommand]) {
         output.innerHTML = outputData["outputErrorMessage"];
-        return;
+    } else {
+        output.innerHTML = outputData[currentCommand];
     }
 
-    output.innerHTML = outputData[currentCommand];
+    command = "";
+    caretIndex = 0;
+    caret.style = `--chars:${caretIndex}`;
+    input.value = "";
+}
+
+function moveCaret(move) {
+    if (move === "forward") {
+        caretIndex++;
+    } else {
+        caretIndex--;
+    }
+
+    caret.style = `--chars:${caretIndex}`;
 }

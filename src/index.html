@@ -11,8 +11,14 @@
 
     <body>
         <div id="root" class="p-2">
-            <input type="text" id="decoy" class="hidden" />
-            <div id="input">Command:</div>
+            <div class="flex gap-1">
+                <div class="h-min relative">
+                    <div>C:\visitor></div>
+                    <div id="caret" class="blink" style="--chars:0"></div>
+                </div>
+                <input type="text" id="input" class="" autofocus spellcheck="false" pattern="[A-Za-z0-9]" />
+            </div>
+
             <div id="output" class="bg-green-400"></div>
         </div>
 

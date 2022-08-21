@@ -551,8 +551,22 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
-.hidden {
-  display: none;
+.relative {
+  position: relative;
+}
+
+.flex {
+  display: flex;
+}
+
+.h-min {
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
+}
+
+.gap-1 {
+  gap: 0.25rem;
 }
 
 .bg-green-400 {
@@ -569,8 +583,9 @@ video {
   padding: 0.5rem;
 }
 
-#root {
-  min-height: 100vh;
+.blur {
+  --tw-blur: blur(8px);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 :root {
@@ -590,4 +605,59 @@ video {
   --magenta: #ea08ce;
   --yellow: #f9f1a5;
   --white: #f2f2f2;
+}
+
+* {
+  font-family: "Consolas", sans-serif;
+}
+
+::-moz-selection {
+  color: black;
+  background: white;
+}
+
+::selection {
+  color: black;
+  background: white;
+}
+
+#root {
+  min-height: 100vh;
+  color: white;
+  background-color: black;
+}
+
+#input {
+  background-color: black;
+  outline: none;
+  caret-color: transparent;
+}
+
+#caret {
+  width: 1ch;
+  height: 1em;
+  background: linear-gradient(to bottom, black 0% 80%, white 80%);
+  position: absolute;
+  top: 50%;
+  right: calc((var(--chars) * -1ch) - 0.25em - 1ch);
+  transform: translateY(-50%);
+}
+
+.blink {
+  opacity: 0;
+  background: white !important;
+  -webkit-animation: blink 1s linear infinite;
+          animation: blink 1s linear infinite;
+}
+
+@-webkit-keyframes blink {
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 1;
+  }
 }
