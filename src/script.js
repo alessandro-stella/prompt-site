@@ -10,72 +10,6 @@ const bannerRows = Array.from(
 let command = "";
 let caretIndex = 0;
 
-const possibleChars = [
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-    "g",
-    "h",
-    "i",
-    "j",
-    "k",
-    "l",
-    "m",
-    "n",
-    "o",
-    "p",
-    "q",
-    "r",
-    "s",
-    "t",
-    "u",
-    "v",
-    "w",
-    "x",
-    "y",
-    "z",
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-    " ",
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-];
-
 let i = 0;
 
 let timer = window.setInterval(() => {
@@ -86,8 +20,12 @@ let timer = window.setInterval(() => {
     }
 }, 100);
 
-input.addEventListener("focus", () => {
+input.addEventListener("click", () => {
     caret.classList.add("blink");
+
+    const end = input.value.length;
+    input.setSelectionRange(end, end);
+    input.focus();
 });
 
 input.addEventListener("blur", () => {
@@ -97,33 +35,86 @@ input.addEventListener("blur", () => {
 input.addEventListener("input", (e) => {
     if (e.inputType === "deleteContentBackward") {
         if (command.length !== 0) {
-            command = command.slice(0, -1);
             moveCaret("backward");
         }
+    } else {
+        moveCaret("forward");
+    }
+
+    command = input.value;
+});
+
+window.addEventListener("keydown", (e) => {
+    if (e.repeat) {
+        return;
+    }
+
+    console.log(e.repeat);
+
+    const validKeys = ["ArrowLeft", "ArrowRight", "Enter"];
+
+    if (!validKeys.includes(e.key)) {
+        if (e.key === "Alt" || e.key === "Control") e.preventDefault();
 
         return;
     }
 
-    if (possibleChars.includes(e.data)) {
-        command += e.data;
-        moveCaret("forward");
-    } else {
-        input.value = input.value.slice(0, -1);
+    switch (e.key) {
+        case "ArrowLeft":
+            moveCaret("backward", true);
+            caret.classList.remove("blink");
+            break;
+
+        case "ArrowRight":
+            moveCaret("forward", true);
+            break;
+
+        case "Enter":
+            if (command.length !== 0) executeCommand();
+            break;
+
+        default:
+            break;
     }
-});
-
-window.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter") return;
-
-    executeCommand();
 });
 
 function executeCommand() {
+    const newDiv = document.createElement("div");
+    newDiv.classList = "";
+
+    newDiv.innerHTML = `C:\\visitor> ${command}<br>`;
+
     if (!outputData[command]) {
-        output.innerHTML = outputData["outputErrorMessage"];
+        newDiv.innerHTML += `"${command}" is not recognized as an internal
+        or external command operable program or batch file`;
     } else {
-        output.innerHTML = outputData[command];
+        switch (command) {
+            case "help":
+                newDiv.innerHTML += `${outputData[command]}`;
+                break;
+
+            case "about":
+                newDiv.innerHTML += `${outputData[command]}`;
+                break;
+
+            case "social":
+                newDiv.innerHTML += `${outputData[command]}`;
+                break;
+
+            case "contactMe":
+                newDiv.innerHTML += `${outputData[command]}`;
+                break;
+
+            case "cls":
+                output.innerHTML = "";
+                break;
+
+            default:
+                break;
+        }
     }
+
+    if (command !== "cls") output.appendChild(newDiv);
 
     command = "";
     caretIndex = 0;
@@ -131,12 +122,23 @@ function executeCommand() {
     input.value = "";
 }
 
-function moveCaret(move) {
+function moveCaret(move, arrow) {
     if (move === "forward") {
         caretIndex++;
     } else {
         caretIndex--;
     }
 
-    caret.style = `--chars:${caretIndex}`;
+    if (arrow) {
+        if (caretIndex >= command.length) {
+            caret.classList.add("blink");
+            caretIndex = command.length;
+        }
+
+        if (caretIndex < 0) {
+            caretIndex = 0;
+        }
+    }
+
+    caret.style = `--chars: ${caretIndex}`;
 }

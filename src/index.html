@@ -12,61 +12,64 @@
     <body>
         <div
             id="root"
-            class="min-w-screen min-h-screen py-2 px-4 flex flex-col gap-4"
+            class="flex flex-col min-h-screen gap-4 p-2 min-w-screen"
         >
-            <div id="banner" class="max-w-full text-[0.5em] lg:text-base">
+            <div
+                id="banner"
+                class="max-w-full text-[0.5em] lg:text-base font-bold"
+            >
                 <div>
                     ===============================================================================================
                 </div>
-                <div class="row hidden">
+                <div class="hidden row">
                     <span>__</span
                     >/\\\\\\\\\\\<span>____</span>/\\\<span>________</span>/\\\<span>__</span>/\\\\\\\\\\\\\<span>_______</span>/\\\\\\\\\\<span>_____</span>/\\\\\\\\\<span
                         >____________</span
                     >
                 </div>
-                <div class="row hidden">
+                <div class="hidden row">
                     <span>_</span
                     >/\\\/////////\\\<span>_</span>\/\\\<span>_______</span>\/\\\<span>_</span>\/\\\/////////\\\<span>___</span>/\\\///////\\\<span>__</span>/\\\///////\\\<span
                         >_________</span
                     >
                 </div>
-                <div class="row hidden">
+                <div class="hidden row">
                     <span>_</span
                     >\//\\\<span>______</span>\///<span>__</span>\/\\\<span>_______</span>\/\\\<span>_</span>\/\\\<span>_______</span>\/\\\<span>__</span>\///<span>______</span>/\\\<span>__</span>\/\\\<span>_____</span>\/\\\<span
                         >________</span
                     >
                 </div>
-                <div class="row hidden">
+                <div class="hidden row">
                     <span>___</span
                     >\////\\\<span>_________</span>\/\\\<span>_______</span>\/\\\<span>_</span>\/\\\\\\\\\\\\\/<span>__________</span>/\\\//<span>___</span>\/\\\\\\\\\\\/<span
                         >________</span
                     >
                 </div>
-                <div class="row hidden">
+                <div class="hidden row">
                     <span>_______</span
                     >\////\\\<span>______</span>\/\\\<span>_______</span>\/\\\<span>_</span>\/\\\/////////<span>___________</span>\////\\\<span>__</span>\/\\\//////\\\<span
                         >_______</span
                     >
                 </div>
-                <div class="row hidden">
+                <div class="hidden row">
                     <span>___________</span
                     >\////\\\<span>___</span>\/\\\<span>_______</span>\/\\\<span>_</span>\/\\\<span>_______________________</span>\//\\\<span>_</span>\/\\\<span>____</span>\//\\\<span
                         >_____</span
                     >
                 </div>
-                <div class="row hidden">
+                <div class="hidden row">
                     <span>_____</span
                     >/\\\<span>______</span>\//\\\<span>__</span>\//\\\<span>______</span>/\\\<span>__</span>\/\\\<span>______________</span>/\\\<span>______</span>/\\\<span>__</span>\/\\\<span>_____</span>\//\\\<span
                         >___</span
                     >
                 </div>
-                <div class="row hidden">
+                <div class="hidden row">
                     <span>_____</span
                     >\///\\\\\\\\\\\/<span>____</span>\///\\\\\\\\\/<span>___</span>\/\\\<span>_____________</span>\///\\\\\\\\\/<span>___</span>\/\\\<span>______</span>\//\\\<span
                         >_</span
                     >
                 </div>
-                <div class="row hidden">
+                <div class="hidden row">
                     <span>________</span
                     >\///////////<span>________</span>\/////////<span>_____</span>\///<span>________________</span>\/////////<span>_____</span>\///<span>________</span>\///<span
                         >_</span
@@ -77,9 +80,11 @@
                 </div>
             </div>
 
-            <div>
-                <div class="flex gap-1 text-lg lg:text-xl">
-                    <div class="h-min relative">
+            <div class="flex flex-col gap-4 text-lg lg:text-xl">
+                <div id="output" class="flex flex-col gap-4"></div>
+
+                <div class="flex gap-[1ch]">
+                    <div class="relative h-min">
                         <div>C:\visitor></div>
                         <div id="caret" class="blink" style="--chars: 0"></div>
                     </div>
@@ -87,14 +92,11 @@
                     <input
                         type="text"
                         id="input"
-                        class=""
+                        class="flex-1"
                         autofocus
                         spellcheck="false"
-                        pattern="[A-Za-z0-9]"
                     />
                 </div>
-
-                <div id="output" class="bg-green-400"></div>
             </div>
         </div>
 

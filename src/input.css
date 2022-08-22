@@ -55,11 +55,16 @@
 
     position: absolute;
     top: 50%;
-    right: calc((var(--chars) * -1ch) - 0.25em - 1ch);
+    right: calc((var(--chars) * -1ch) - 2ch);
 
     transform: translateY(-50%);
+}
 
-    background: white;
+#caret:not(.blink) {
+    background: black;
+
+    backdrop-filter: invert();
+    mix-blend-mode: difference;
 }
 
 .blink {
@@ -72,4 +77,8 @@
     50% {
         opacity: 1;
     }
+}
+
+#output:empty {
+    display: none;
 }
