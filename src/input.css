@@ -39,6 +39,10 @@
     background-color: black;
 }
 
+.row span {
+    color: black;
+}
+
 #input {
     background-color: black;
     outline: none;
@@ -49,18 +53,18 @@
     width: 1ch;
     height: 1em;
 
-    background: linear-gradient(to bottom, black 0% 80%, white 80%);
-
     position: absolute;
     top: 50%;
     right: calc((var(--chars) * -1ch) - 0.25em - 1ch);
 
     transform: translateY(-50%);
+
+    background: white;
 }
 
 .blink {
     opacity: 0;
-    background: white !important;
+    background: linear-gradient(to bottom, black 0% 80%, white 80%) !important;
     animation: blink 1s linear infinite;
 }
 

@@ -559,10 +559,30 @@ video {
   display: flex;
 }
 
+.hidden {
+  display: none;
+}
+
 .h-min {
   height: -webkit-min-content;
   height: -moz-min-content;
   height: min-content;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.max-w-full {
+  max-width: 100%;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.gap-4 {
+  gap: 1rem;
 }
 
 .gap-1 {
@@ -579,8 +599,23 @@ video {
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
 
-.p-2 {
-  padding: 0.5rem;
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.text-\[0\.5em\] {
+  font-size: 0.5em;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
 }
 
 .blur {
@@ -627,6 +662,10 @@ video {
   background-color: black;
 }
 
+.row span {
+  color: black;
+}
+
 #input {
   background-color: black;
   outline: none;
@@ -636,16 +675,16 @@ video {
 #caret {
   width: 1ch;
   height: 1em;
-  background: linear-gradient(to bottom, black 0% 80%, white 80%);
   position: absolute;
   top: 50%;
   right: calc((var(--chars) * -1ch) - 0.25em - 1ch);
   transform: translateY(-50%);
+  background: white;
 }
 
 .blink {
   opacity: 0;
-  background: white !important;
+  background: linear-gradient(to bottom, black 0% 80%, white 80%) !important;
   -webkit-animation: blink 1s linear infinite;
           animation: blink 1s linear infinite;
 }
@@ -659,5 +698,17 @@ video {
 @keyframes blink {
   50% {
     opacity: 1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:text-base {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .lg\:text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
 }

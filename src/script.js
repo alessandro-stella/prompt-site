@@ -3,6 +3,9 @@ import outputData from "./outputData.js";
 const input = document.getElementById("input");
 const output = document.getElementById("output");
 const caret = document.getElementById("caret");
+const bannerRows = Array.from(
+    document.getElementById("banner").getElementsByClassName("row")
+);
 
 let command = "";
 let caretIndex = 0;
@@ -73,6 +76,16 @@ const possibleChars = [
     9,
 ];
 
+let i = 0;
+
+let timer = window.setInterval(() => {
+    bannerRows[i].classList.remove("hidden");
+
+    if (++i >= bannerRows.length) {
+        window.clearInterval(timer);
+    }
+}, 100);
+
 input.addEventListener("focus", () => {
     caret.classList.add("blink");
 });
@@ -81,44 +94,35 @@ input.addEventListener("blur", () => {
     caret.classList.remove("blink");
 });
 
-input.addEventListener("keydown", (e) => {
-    if (e.key.length !== 1) {
-        switch (e.key) {
-            case "Enter":
-                executeCommand(command.trim());
-                break;
-
-            case "Backspace":
-                if (command.length === 0) break;
-
-                command = command.slice(0, -1);
-                moveCaret("backward");
-                break;
-
-            default:
-                break;
+input.addEventListener("input", (e) => {
+    if (e.inputType === "deleteContentBackward") {
+        if (command.length !== 0) {
+            command = command.slice(0, -1);
+            moveCaret("backward");
         }
 
         return;
     }
 
-    if (possibleChars.includes(e.key)) {
-        command += e.key;
+    if (possibleChars.includes(e.data)) {
+        command += e.data;
         moveCaret("forward");
     } else {
-        console.log({ before: input.value });
-
         input.value = input.value.slice(0, -1);
-
-        console.log({ after: input.value });
     }
 });
 
-function executeCommand(currentCommand) {
-    if (!outputData[currentCommand]) {
+window.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter") return;
+
+    executeCommand();
+});
+
+function executeCommand() {
+    if (!outputData[command]) {
         output.innerHTML = outputData["outputErrorMessage"];
     } else {
-        output.innerHTML = outputData[currentCommand];
+        output.innerHTML = outputData[command];
     }
 
     command = "";
