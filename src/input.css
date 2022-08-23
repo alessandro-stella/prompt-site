@@ -21,30 +21,53 @@
     --white: #f2f2f2;
 }
 
-@import url("http://fonts.cdnfonts.com/css/cascadia-mono");
-
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
 * {
     font-family: "Consolas", sans-serif;
+
+    --text-color: var(--text);
+    --background-color: var(--background);
+
+    scrollbar-width: auto;
+    scrollbar-color: var(--text-color) var(--background-color);
 }
 
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--text-color);
+    border-radius: 10px;
+    border: 3px solid var(--background-color);
+}
+
+@import url("http://fonts.cdnfonts.com/css/cascadia-mono");
+
 ::selection {
-    color: black;
-    background: white;
+    color: var(--background-color);
+    background: var(--text-color);
 }
 
 #root {
     min-height: 100vh;
 
-    color: white;
-    background-color: black;
+    color: var(--text-color);
+    background-color: var(--background-color);
 }
 
 .row span {
-    color: black;
+    color: var(--background-color);
 }
 
 #input {
-    background-color: black;
+    background-color: var(--background-color);
     outline: none;
     caret-color: transparent;
     flex: 1;
@@ -62,15 +85,19 @@
 }
 
 #caret:not(.blink) {
-    background: black;
+    background: var(--text-color);
+    color: var(--background-color);
 
-    backdrop-filter: invert();
     mix-blend-mode: difference;
 }
 
 .blink {
     opacity: 0;
-    background: linear-gradient(to bottom, black 0% 80%, white 80%) !important;
+    background: linear-gradient(
+        to bottom,
+        var(--background-color) 0% 80%,
+        var(--text-color) 80%
+    ) !important;
     animation: blink 1s linear infinite;
 }
 

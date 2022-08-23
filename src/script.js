@@ -7,6 +7,18 @@ const bannerRows = Array.from(
     document.getElementById("banner").getElementsByClassName("row")
 );
 
+window.onload = () => {
+    const background = localStorage.getItem("background");
+    const text = localStorage.getItem("text");
+
+    if (background && text) {
+        document.body.style = `--background: var(${background}); --text: var(${text})`;
+        return;
+    }
+
+    saveInStorage("--black", "--white");
+};
+
 let command = "";
 let caretIndex = 0;
 
@@ -76,34 +88,106 @@ function executeCommand() {
     newDiv.classList = "";
 
     newDiv.innerHTML = `C:\\visitor> ${command}<br>`;
+    const errorMessage = `"${command}" is not recognized as an internal
+    or external command operable program or batch file`;
 
-    if (!outputData[command]) {
-        newDiv.innerHTML += `"${command}" is not recognized as an internal
-        or external command operable program or batch file`;
+    if (!outputData[command.split(" ")[0]]) {
+        newDiv.innerHTML += errorMessage;
     } else {
-        switch (command) {
-            case "help":
-                newDiv.innerHTML += `${outputData[command]}`;
-                break;
+        if (command === "cls") {
+            output.innerHTML = "";
+        } else {
+            switch (command.split(" ")[0]) {
+                case "help":
+                    if (command === "help") {
+                        const table = createTable(outputData[command]);
 
-            case "about":
-                newDiv.innerHTML += `${outputData[command]}`;
-                break;
+                        newDiv.appendChild(table);
+                    } else newDiv.innerHTML += errorMessage;
+                    break;
 
-            case "social":
-                newDiv.innerHTML += `${outputData[command]}`;
-                break;
+                case "about":
+                    newDiv.innerHTML += `${outputData[command]}`;
+                    break;
 
-            case "contactMe":
-                newDiv.innerHTML += `${outputData[command]}`;
-                break;
+                case "social":
+                    newDiv.innerHTML += `${outputData[command]}`;
+                    break;
 
-            case "cls":
-                output.innerHTML = "";
-                break;
+                case "contactMe":
+                    newDiv.innerHTML += `${outputData[command]}`;
+                    break;
 
-            default:
-                break;
+                case "color":
+                    const colorData = outputData["color"];
+
+                    if (command === "color") {
+                        let message = document.createElement("div");
+                        message.innerHTML = `
+                        You can change the colors of the prompt by using "color XY", where
+                        <br>
+                        X = background color and Y = text color
+                        <br><br>
+                        All available colors:
+                        `;
+
+                        newDiv.appendChild(message);
+                        const table = createTable(colorData, true);
+
+                        newDiv.appendChild(table);
+                    } else {
+                        if (command.length !== 8) {
+                            newDiv.innerHTML += errorMessage;
+                            break;
+                        }
+
+                        const colors = {
+                            0: "--black",
+                            1: "--dark-blue",
+                            2: "--green",
+                            3: "--aqua",
+                            4: "--bordeaux",
+                            5: "--purple",
+                            6: "--olive",
+                            7: "--light-grey",
+                            8: "--grey",
+                            9: "--blue",
+                            a: "--lime",
+                            b: "--light-blue",
+                            c: "--red",
+                            d: "--magenta",
+                            e: "--yellow",
+                            f: "--white",
+                        };
+
+                        const background = colors[command.charAt(6)];
+                        const text = colors[command.charAt(7)];
+
+                        if (background === text) {
+                            newDiv.innerHTML +=
+                                "Warning: the two colors must differ!";
+                            break;
+                        }
+
+                        document.body.style = `--background: var(${background}); --text: var(${text})`;
+                        let message = document.createElement("div");
+                        message.innerHTML = `
+                        Colors changed successfully
+                        <br>
+                        Background: ${colorData.get(
+                            command.charAt(6)
+                        )} | Text: ${colorData.get(command.charAt(7))}`;
+
+                        saveInStorage(background, text);
+
+                        newDiv.appendChild(message);
+                    }
+
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 
@@ -113,6 +197,65 @@ function executeCommand() {
     caretIndex = 0;
     caret.style = `--chars:${caretIndex}`;
     input.value = "";
+}
+
+function createTable(data, isObject) {
+    let table = document.createElement("div");
+    table.classList.add("table");
+
+    let row;
+
+    if (isObject) {
+        let index = 0;
+
+        for (const [key, value] of data) {
+            let cell = document.createElement("div");
+            cell.classList.add("table-cell");
+
+            if (index % 2 === 0) {
+                row = document.createElement("div");
+                row.classList.add("table-row");
+                cell.classList.add("pr-[1ch]");
+                cell.innerHTML = `${key} - ${value}`;
+            } else {
+                cell.innerHTML = `| ${key} - ${value}`;
+            }
+
+            row.appendChild(cell);
+
+            if (index % 2 === 1) {
+                table.appendChild(row);
+                row = undefined;
+            }
+
+            index++;
+        }
+
+        return table;
+    }
+
+    data.forEach((singleCommand, index) => {
+        let cell = document.createElement("div");
+        cell.classList.add("table-cell");
+
+        if (index % 2 === 0) {
+            row = document.createElement("div");
+            row.classList.add("table-row");
+            cell.classList.add("pr-[1ch]");
+            cell.innerHTML = singleCommand;
+        } else {
+            cell.innerHTML = `| ${singleCommand}`;
+        }
+
+        row.appendChild(cell);
+
+        if (index % 2 === 1) {
+            table.appendChild(row);
+            row = undefined;
+        }
+    });
+
+    return table;
 }
 
 function moveCaret(move, arrow) {
@@ -134,4 +277,12 @@ function moveCaret(move, arrow) {
     }
 
     caret.style = `--chars: ${caretIndex}`;
+}
+
+function saveInStorage(background, text) {
+    localStorage.removeItem("background");
+    localStorage.removeItem("text");
+
+    localStorage.setItem("background", background);
+    localStorage.setItem("text", text);
 }

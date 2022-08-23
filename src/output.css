@@ -559,6 +559,18 @@ video {
   display: flex;
 }
 
+.table {
+  display: table;
+}
+
+.table-cell {
+  display: table-cell;
+}
+
+.table-row {
+  display: table-row;
+}
+
 .hidden {
   display: none;
 }
@@ -589,13 +601,12 @@ video {
   gap: 1ch;
 }
 
-.bg-red-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
-}
-
 .p-2 {
   padding: 0.5rem;
+}
+
+.pr-\[1ch\] {
+  padding-right: 1ch;
 }
 
 .text-\[0\.5em\] {
@@ -607,8 +618,8 @@ video {
   line-height: 1.75rem;
 }
 
-.font-bold {
-  font-weight: 700;
+.font-black {
+  font-weight: 900;
 }
 
 .blur {
@@ -635,32 +646,56 @@ video {
   --white: #f2f2f2;
 }
 
+/* ===== Scrollbar CSS ===== */
+
+/* Firefox */
+
 * {
   font-family: "Consolas", sans-serif;
+  --text-color: var(--text);
+  --background-color: var(--background);
+  scrollbar-width: auto;
+  scrollbar-color: var(--text-color) var(--background-color);
+}
+
+/* Chrome, Edge, and Safari */
+
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--background-color);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--text-color);
+  border-radius: 10px;
+  border: 3px solid var(--background-color);
 }
 
 ::-moz-selection {
-  color: black;
-  background: white;
+  color: var(--background-color);
+  background: var(--text-color);
 }
 
 ::selection {
-  color: black;
-  background: white;
+  color: var(--background-color);
+  background: var(--text-color);
 }
 
 #root {
   min-height: 100vh;
-  color: white;
-  background-color: black;
+  color: var(--text-color);
+  background-color: var(--background-color);
 }
 
 .row span {
-  color: black;
+  color: var(--background-color);
 }
 
 #input {
-  background-color: black;
+  background-color: var(--background-color);
   outline: none;
   caret-color: transparent;
   flex: 1;
@@ -676,15 +711,18 @@ video {
 }
 
 #caret:not(.blink) {
-  background: black;
-  -webkit-backdrop-filter: invert();
-          backdrop-filter: invert();
+  background: var(--text-color);
+  color: var(--background-color);
   mix-blend-mode: difference;
 }
 
 .blink {
   opacity: 0;
-  background: linear-gradient(to bottom, black 0% 80%, white 80%) !important;
+  background: linear-gradient(
+        to bottom,
+        var(--background-color) 0% 80%,
+        var(--text-color) 80%
+    ) !important;
   -webkit-animation: blink 1s linear infinite;
           animation: blink 1s linear infinite;
 }
