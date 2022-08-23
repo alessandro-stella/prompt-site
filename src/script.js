@@ -26,6 +26,9 @@ input.addEventListener("click", () => {
     const end = input.value.length;
     input.setSelectionRange(end, end);
     input.focus();
+
+    caretIndex = command.length;
+    caret.style = `--chars: ${caretIndex}`;
 });
 
 input.addEventListener("blur", () => {
@@ -44,20 +47,10 @@ input.addEventListener("input", (e) => {
     command = input.value;
 });
 
-window.addEventListener("keydown", (e) => {
-    if (e.repeat) {
-        return;
-    }
-
-    console.log(e.repeat);
-
+input.addEventListener("keydown", (e) => {
     const validKeys = ["ArrowLeft", "ArrowRight", "Enter"];
 
-    if (!validKeys.includes(e.key)) {
-        if (e.key === "Alt" || e.key === "Control") e.preventDefault();
-
-        return;
-    }
+    if (!validKeys.includes(e.key)) return;
 
     switch (e.key) {
         case "ArrowLeft":

@@ -47,6 +47,7 @@
     background-color: black;
     outline: none;
     caret-color: transparent;
+    flex: 1;
 }
 
 #caret {

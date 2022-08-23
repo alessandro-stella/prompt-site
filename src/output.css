@@ -577,10 +577,6 @@ video {
   max-width: 100%;
 }
 
-.flex-1 {
-  flex: 1 1 0%;
-}
-
 .flex-col {
   flex-direction: column;
 }
@@ -667,6 +663,7 @@ video {
   background-color: black;
   outline: none;
   caret-color: transparent;
+  flex: 1;
 }
 
 #caret {
