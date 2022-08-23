@@ -11,12 +11,13 @@ window.onload = () => {
     const background = localStorage.getItem("background");
     const text = localStorage.getItem("text");
 
-    if (background && text) {
-        document.body.style = `--background: var(${background}); --text: var(${text})`;
-        return;
+    if (!(background && text)) {
+        saveInStorage("--black", "--white");
     }
 
-    saveInStorage("--black", "--white");
+    document.body.style = `--background: var(${
+        background || "--black"
+    }); --text: var(${text || "--white"})`;
 };
 
 let command = "";
